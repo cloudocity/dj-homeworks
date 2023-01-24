@@ -1,16 +1,25 @@
 from rest_framework import serializers
 
-from measurement.models import Sensor,Measurement
+from measurement.models import Sensor, Measurement
 
 class MeasurementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Measurement
-        fields = ['Sensor_id','temperature', 'created_at']
+        fields = '__all__'
 
-
-class SensorDetailSerializer(serializers.ModelSerializer):
-    measurements = MeasurementSerializer(read_only=True, many=True)
-
+class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sensor
-        fields = ['id', 'name', 'description', 'measurements']
+        fields = ['id', 'name', 'description']
+
+
+class MeasurementSerializerSens(serializers.ModelSerializer):
+    class Meta:
+        model = Measurement
+        fields = ['temperature', 'created_at']
+
+class SensorDetailSerializer(serializers.ModelSerializer):
+    Sensor = MeasurementSerializerSens(read_only=True, many=True)
+    class Meta:
+        model = Sensor
+        fields = ['id', 'name', 'description', 'Sensor']

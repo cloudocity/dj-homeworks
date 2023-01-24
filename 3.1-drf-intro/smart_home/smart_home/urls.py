@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from measurement.views import SensorView,MeasurementView,SensorUpdate
+from measurement.views import SensorView, MeasurementView, SensorUpdate, SensorMeasurementView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/sensor', SensorView.as_view()),
-    path('api/sensor/<pk>', SensorUpdate.as_view()),
-    path('api/measurement', MeasurementView.as_view()),
+    path('api/sensor', SensorView.as_view()), #Get получить список датчиков и POST добавить новый
+    path('api/sensor/<pk>', SensorUpdate.as_view()), #Put изменить данные датчика
+    path('api/measurement', MeasurementView.as_view()),# Get Получить все  измерения и Post  Добавить измерение. Указываются ID датчика и температура.
+    path('api/sensormeas/<pk>', SensorMeasurementView.as_view()),# Get Получить информацию по конкретному датчику
+
 ]
